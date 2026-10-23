@@ -1,0 +1,16 @@
+# Test http requests for my api
+
+### Get server root
+GET http://localhost:3000/
+
+### Get not found 404
+GET http://localhost:3000/something-not-found
+
+### Post server root
+POST http://localhost:3000/
+
+### Get all items
+GET http://localhost:3000/items
+
+### Get an item by id
+GET http://localhost:3000/item/6
