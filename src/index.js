@@ -39,6 +39,7 @@ const server = http.createServer((req, res) => {
       res.write(JSON.stringify(items));
     }
     res.end();
+  // POST /items
   } else if (req.method === 'POST' && resource === 'items') {
     let data = '';
     req.on('data', (chunk) => {
@@ -46,7 +47,12 @@ const server = http.createServer((req, res) => {
     });
     req.on('end', () => {
       console.log('POST data:', data);
-      res.end('Data received');
+      // Create ne object based on posted json data
+      const newItem = JSON.parse(data);
+      newItem.id = items[items.length-1].id + 1;
+      items.push(newItem);
+      res.writeHead(201, {'Content-Type': 'application/json'});
+      res.end('{"message": "Data received"}');
     });
 
     // Default 404 error responsse

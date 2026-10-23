@@ -20,4 +20,13 @@ content-type: application/json
 
 
 ### Get an item by id
-GET http://localhost:3000/item/6
+GET http://localhost:3000/items/16
+
+### Delete item by id
+DELETE http://localhost:3000/items/2
+
+### Modify existing item by id
+PUT http://localhost:3000/items/1
+content-type: application/json
+
+{"name": "uusi nimi"}
