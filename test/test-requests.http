@@ -12,5 +12,12 @@ POST http://localhost:3000/
 ### Get all items
 GET http://localhost:3000/items
 
+### Post new item
+POST http://localhost:3000/items
+content-type: application/json
+
+{"name": "postattu itemi"}
+
+
 ### Get an item by id
 GET http://localhost:3000/item/6

@@ -11,8 +11,8 @@ const items = [
 ];
 
 const notFound = (response) => {
-    response.writeHead(404, {'Content-Type': 'text/html'});
-    response.end('<p>404 - Not Found</p>');
+  response.writeHead(404, {'Content-Type': 'text/html'});
+  response.end('<p>404 - Not Found</p>');
 };
 
 const server = http.createServer((req, res) => {
@@ -24,14 +24,14 @@ const server = http.createServer((req, res) => {
   if (req.url === '/') {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end('<p>Tervetuloa esimerkkirajapintaan</p>');
-  // GET /items
+    // GET /items
   } else if (req.method === 'GET' && resource === 'items') {
     if (id) {
-      const item = items.find((item) => id == item.id)
+      const item = items.find((item) => id == item.id);
       if (!item) {
         notFound(res);
         return;
-      } 
+      }
       res.writeHead(200, {'Content-Type': 'application/json'});
       res.write(JSON.stringify(item));
     } else {
@@ -39,7 +39,17 @@ const server = http.createServer((req, res) => {
       res.write(JSON.stringify(items));
     }
     res.end();
-  // Default 404 error responsse
+  } else if (req.method === 'POST' && resource === 'items') {
+    let data = '';
+    req.on('data', (chunk) => {
+      data += chunk.toString();
+    });
+    req.on('end', () => {
+      console.log('POST data:', data);
+      res.end('Data received');
+    });
+
+    // Default 404 error responsse
   } else {
     notFound(res);
   }
