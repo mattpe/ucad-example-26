@@ -3,6 +3,9 @@
 ### Get server root
 GET http://localhost:3000/
 
+### Get api root
+GET http://localhost:3000/api
+
 ### Get not found 404
 GET http://localhost:3000/something-not-found
 
@@ -10,23 +13,23 @@ GET http://localhost:3000/something-not-found
 POST http://localhost:3000/
 
 ### Get all items
-GET http://localhost:3000/items
+GET http://localhost:3000/api/items?limit=3
 
 ### Post new item
-POST http://localhost:3000/items
+POST http://localhost:3000/api/items
 content-type: application/json
 
 {"name": "postattu itemi"}
 
 
 ### Get an item by id
-GET http://localhost:3000/items/16
+GET http://localhost:3000/api/items/16
 
 ### Delete item by id
-DELETE http://localhost:3000/items/2
+DELETE http://localhost:3000/api/items/2
 
 ### Modify existing item by id
-PUT http://localhost:3000/items/1
+PUT http://localhost:3000/api/items/1
 content-type: application/json
 
 {"name": "uusi nimi"}
