@@ -4,10 +4,10 @@ import {
   fetchAllMediaItems,
   findMediaItemById,
   modifyMediaItem,
-} from '../models/media-model-mockdata.js';
+} from '../models/media-model.js';
 
-const getMediaItems = (req, res) => {
-  const items = fetchAllMediaItems(req.query.limit);
+const getMediaItems = async (req, res) => {
+  const items = await fetchAllMediaItems(req.query.limit);
   res.json(items);
 };
 
