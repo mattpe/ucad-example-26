@@ -1,6 +1,7 @@
 import express from 'express';
 import mediaRouter from './routes/media-router.js';
 import userRouter from './routes/user-router.js';
+import {logRequest} from './middlewares/logger.js';
 
 const hostname = '127.0.0.1';
 const app = express();
@@ -8,6 +9,9 @@ const port = 3000;
 
 app.set('view engine', 'pug');
 app.set('views', 'src/views');
+
+// käytetään omaan logger-middlewarea jokaiselle http-pyynnölle
+app.use(logRequest);
 
 app.use(express.json());
 
