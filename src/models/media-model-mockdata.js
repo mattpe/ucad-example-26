@@ -52,7 +52,7 @@ const mediaItems = [
   },
 ];
 
-const getAllMediaItems = (limit) => {
+const fetchAllMediaItems = (limit) => {
   if (limit) {
     // TODO: fix
     return mediaItems.slice(0, limit);
@@ -60,7 +60,7 @@ const getAllMediaItems = (limit) => {
   return mediaItems;
 };
 
-const getMediaItemById = (id) => {
+const findMediaItemById = (id) => {
   const itemFound = mediaItems.find((item) => id == item.media_id);
   return itemFound;
 };
@@ -86,7 +86,7 @@ const modifyMediaItem = (id, modifiedItem) => {
  * @param {number} id - id of the media item 
  * @returns {boolean} - operation success
  */
-const deleteMediaItem = (id) => {
+const deleteMediaItemById = (id) => {
   const itemIndex = mediaItems.findIndex((item) => id == item.media_id);
   if (itemIndex > -1) {
     mediaItems.splice(itemIndex, 1);
@@ -97,8 +97,8 @@ const deleteMediaItem = (id) => {
 
 export {
   addMediaItem,
-  getAllMediaItems,
-  getMediaItemById,
+  fetchAllMediaItems,
+  findMediaItemById,
   modifyMediaItem,
-  deleteMediaItem,
+  deleteMediaItemById,
 };
