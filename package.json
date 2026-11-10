@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src/index.js",
+    "production": "pm2 start src/index.js --name ucad-example-app",
     "dev": "nodemon src/index.js"
   },
   "devDependencies": {
