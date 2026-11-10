@@ -5,7 +5,8 @@ import {
   postMediaItem,
   putMediaItem,
 } from '../controllers/media-controller.js';
-import {logRequest} from '../middlewares/logger.js';
+import upload from '../middlewares/upload.js';
+//import {logRequest} from '../middlewares/logger.js';
 
 const mediaRouter = express.Router();
 
@@ -14,7 +15,7 @@ const mediaRouter = express.Router();
 
 mediaRouter.route('/')
   .get(getMediaItems)
-  .post(postMediaItem);
+  .post(upload.single('file'), postMediaItem);
 
 mediaRouter.route('/:id')
   .get(getMediaItemById)

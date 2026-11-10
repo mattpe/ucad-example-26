@@ -30,7 +30,7 @@ GET {{apiUrl}}/media/9626
 ### GET media item by id (Not found)
 GET {{apiUrl}}/media/0
 
-### Add new media item
+### Add new media item (JSON, no file included!)
 POST {{apiUrl}}/media
 content-type: application/json
 
@@ -41,6 +41,25 @@ content-type: application/json
   "user_id": 305,
   "media_type": "image/jpeg"
 }
+
+### Add new media item WITH IMAGE (form-data)
+POST {{apiUrl}}/media
+Content-Type: multipart/form-data; boundary=----Boundary
+
+------Boundary
+Content-Disposition: form-data; name="title"
+
+New cat image
+------Boundary
+Content-Disposition: form-data; name="user_id"
+
+21
+------Boundary
+Content-Disposition: form-data; name="file"; filename="image.png"
+Content-Type: image/jpeg
+
+< ./cat900.jpg
+------Boundary--
 
 ### Add new media item (Bad request, title missing)
 POST {{apiUrl}}/media

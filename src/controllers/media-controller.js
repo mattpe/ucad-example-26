@@ -25,7 +25,7 @@ const postMediaItem = (req, res) => {
   if (!req.body.title) {
     return res.status(400).json({error: 400, message: 'Something missing!'});
   }
-  addMediaItem(req.body);
+  addMediaItem({...req.body, ...req.file});
   res.status(201).json({message: 'New media item added.'});
 };
 
