@@ -2,7 +2,7 @@ import promisePool from '../utils/database.js';
 
 const fetchAllMediaItems = async (limit) => {
   try {
-    const result = await promisePool.query('SELECT * FROM mediaItems');
+    const result = await promisePool.query('SELECT * FROM MediaItems');
     const [rows] = result;
     console.log('whole result object', result);
     console.log('rows', rows);
