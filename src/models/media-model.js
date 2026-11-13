@@ -2,10 +2,16 @@ import promisePool from '../utils/database.js';
 
 const fetchAllMediaItems = async (limit) => {
   try {
-    const result = await promisePool.query('SELECT * FROM MediaItems');
+    // TODO: järjestä tulokset niin, että uusin on viimeisenä
+    let result;
+    if (limit) {
+      result = await promisePool.query('SELECT * FROM MediaItems LIMIT ' + limit);
+    } else {
+      result = await promisePool.query('SELECT * FROM MediaItems');
+    }
     const [rows] = result;
-    console.log('whole result object', result);
-    console.log('rows', rows);
+    //console.log('whole result object', result);
+    //console.log('rows', rows);
     return rows;
   } catch (e) {
     console.error('error', e.message);
@@ -13,23 +19,42 @@ const fetchAllMediaItems = async (limit) => {
   }
 };
 
-const findMediaItemById = (id) => {
-  const itemFound = mediaItems.find((item) => id == item.media_id);
-  return itemFound;
+const findMediaItemById = async (id) => {
+  try {
+    // prepared statement suojaa sql-injektioilta
+    const sql = 'SELECT * FROM MediaItems WHERE media_id = ?';
+    const params = [id];
+    const result = await promisePool.execute(sql, params);
+    const [rows] = result;
+    //console.log('whole result object', result);
+    //console.log('rows', rows);
+    return rows[0];
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
 };
 
-const addMediaItem = (item) => {
-  item.media_id = mediaItems[0].media_id + 1;
-  mediaItems.unshift(item);
+const addMediaItem = async (media) => {
+  if (!media.description) {
+    media.description = '';
+  }
+  const {user_id, filename, size, mimetype, title, description} = media;
+  const sql = `INSERT INTO mediaItems (user_id, filename, filesize, media_type, title, description)
+               VALUES (?, ?, ?, ?, ?, ?)`;
+  const params = [user_id, filename, size, mimetype, title, description];
+  try {
+    const rows = await promisePool.execute(sql, params);
+    console.log('rows', rows);
+    return rows[0].insertId;
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
 };
 
 const modifyMediaItem = (id, modifiedItem) => {
-  const itemIndex = mediaItems.findIndex((item) => id == item.media_id);
-  if (itemIndex > -1) {
-    mediaItems[itemIndex] = {...mediaItems[itemIndex], ...modifiedItem};
-    return mediaItems[itemIndex];
-  }
-  return false;
+    //TODO: implement sql query
 };
 
 
@@ -40,12 +65,7 @@ const modifyMediaItem = (id, modifiedItem) => {
  * @returns {boolean} - operation success
  */
 const deleteMediaItemById = (id) => {
-  const itemIndex = mediaItems.findIndex((item) => id == item.media_id);
-  if (itemIndex > -1) {
-    mediaItems.splice(itemIndex, 1);
-    return true;
-  }
-  return false;
+    //TODO: implement sql query
 };
 
 export {

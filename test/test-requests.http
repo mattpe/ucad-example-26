@@ -22,10 +22,10 @@ POST http://localhost:3000/
 GET {{apiUrl}}/media
 
 ### GET 3 latest media items
-GET {{apiUrl}}/media?limit=2
+GET {{apiUrl}}/media?limit=1
 
 ### GET media item by id
-GET {{apiUrl}}/media/9626
+GET {{apiUrl}}/media/2
 
 ### GET media item by id (Not found)
 GET {{apiUrl}}/media/0
@@ -53,7 +53,7 @@ New cat image
 ------Boundary
 Content-Disposition: form-data; name="user_id"
 
-21
+1
 ------Boundary
 Content-Disposition: form-data; name="file"; filename="image.png"
 Content-Type: image/jpeg
