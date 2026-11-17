@@ -5,7 +5,7 @@ import 'dotenv/config';
 const postLogin = async (req, res) => {
   console.log('postLogin', req.body);
   const user = await selectUserByUsername(req.body.username);
-  console.log('user found?', user);
+  //console.log('user found?', user);
   if (user && user.password === req.body.password) {
     delete user.password;
     const token = jwt.sign(user, process.env.JWT_SECRET, {
@@ -17,4 +17,13 @@ const postLogin = async (req, res) => {
   }
 };
 
-export {postLogin};
+/**
+ * Get user information based on token data
+ * @param {*} req 
+ * @param {*} res 
+ */
+const getMe = (req, res) => {
+    res.json(req.user);
+};
+
+export {postLogin, getMe};

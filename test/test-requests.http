@@ -1,5 +1,6 @@
 # Test http requests for my api
 @apiUrl = http://localhost:3000/api
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJ1c2VybmFtZSI6IkphbmVTbWl0aCIsImVtYWlsIjoiamFuZXNtaXRoQGV4YW1wbGUuY29tIiwidXNlcl9sZXZlbF9pZCI6MiwiY3JlYXRlZF9hdCI6IjIwMjYtMTEtMTBUMDk6MDI6NTAuMDAwWiIsImlhdCI6MTc5NDkwNTkwOSwiZXhwIjoxNzk0OTkyMzA5fQ.QWRodlr1yYAhFG_06E4BLiVs90ObrP0WlT3F6qemEAk
 
 
 ### Get server root
@@ -42,8 +43,9 @@ content-type: application/json
   "media_type": "image/jpeg"
 }
 
-### Add new media item WITH IMAGE (form-data)
+### Add new media item WITH IMAGE (form-data) with token
 POST {{apiUrl}}/media
+Authorization: Bearer {{login.response.body.token}}
 Content-Type: multipart/form-data; boundary=----Boundary
 
 ------Boundary
@@ -60,6 +62,7 @@ Content-Type: image/jpeg
 
 < ./cat900.jpg
 ------Boundary--
+
 
 ### Add new media item (Bad request, title missing)
 POST {{apiUrl}}/media
@@ -82,7 +85,8 @@ content-type: application/json
 }
 
 ### Delete media item 
-DELETE {{apiUrl}}/media/9625
+DELETE {{apiUrl}}/media/13
+Authorization: Bearer {{login.response.body.token}}
 
 ## /users requests
 
@@ -91,6 +95,7 @@ DELETE {{apiUrl}}/media/9625
 ## Authentication routes
 
 ### Post login
+# @name login
 POST {{apiUrl}}/auth/login
 content-type: application/json
 
@@ -99,3 +104,6 @@ content-type: application/json
   "password": "to-be-hashed-pw2"
 }
 
+### Get user info
+GET {{apiUrl}}/auth/me
+Authorization: Bearer {{login.response.body.token}}

@@ -1,9 +1,9 @@
 import {
   addMediaItem,
-  deleteMediaItemById,
   fetchAllMediaItems,
   findMediaItemById,
   modifyMediaItem,
+  removeMediaItem,
 } from '../models/media-model.js';
 
 const getMediaItems = async (req, res) => {
@@ -29,6 +29,8 @@ const postMediaItem = async (req, res) => {
   if (!req.body.title) {
     return res.status(400).json({error: 400, message: 'Something missing!'});
   }
+  // pikapurkka, TODO: fix
+  req.body.user_id = req.user.user_id;
   console.log('new media item (mediaController)', {...req.body, ...req.file});
   const media_id = await addMediaItem({...req.body, ...req.file});
   res.status(201).json({message: 'New media item added.', media_id});
@@ -45,9 +47,8 @@ const putMediaItem = async (req, res) => {
 };
 
 const deleteMediaItem = async (req, res) => {
-  const success = await deleteMediaItemById(req.params.id);
-  // TODO: implement MODEL
-  if (!success) {
+  const affectedRows = await removeMediaItem(req.params.id, req.user);
+  if (affectedRows < 1) {
     return res.status(404).json({error: 404, message: 'Item not found!'});
   }
   res.json({message: 'Media deleted!'});

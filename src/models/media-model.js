@@ -5,7 +5,9 @@ const fetchAllMediaItems = async (limit) => {
     // TODO: järjestä tulokset niin, että uusin on viimeisenä
     let result;
     if (limit) {
-      result = await promisePool.query('SELECT * FROM MediaItems LIMIT ' + limit);
+      result = await promisePool.query(
+        'SELECT * FROM MediaItems LIMIT ' + limit,
+      );
     } else {
       result = await promisePool.query('SELECT * FROM MediaItems');
     }
@@ -54,18 +56,37 @@ const addMediaItem = async (media) => {
 };
 
 const modifyMediaItem = (id, modifiedItem) => {
-    //TODO: implement sql query
+  //TODO: implement sql query
 };
-
 
 /**
  * Deletes media item from mock data array
- * 
- * @param {number} id - id of the media item 
+ *
+ * @param {number} id - id of the media item
  * @returns {boolean} - operation success
  */
-const deleteMediaItemById = (id) => {
-    //TODO: implement sql query
+const removeMediaItem = async (mediaId, user) => {
+  let sql, params;
+  try {
+    // prepared statement suojaa sql-injektioilta
+    if (user.user_level_id == 1) {
+      // admin-käyttäjä
+      sql = 'DELETE FROM MediaItems WHERE media_id = ?';
+      params = [mediaId];
+    } else {
+      // tavallinen käyttäjä, joka on tiedoston omistaja
+      sql = 'DELETE FROM MediaItems WHERE media_id = ? AND user_id = ?';
+      params = [mediaId, user.user_id];
+    }
+    const result = await promisePool.execute(sql, params);
+    const [rows] = result;
+    //console.log('whole result object', result);
+    console.log('rows', rows);
+    return rows.affectedRows;
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
 };
 
 export {
@@ -73,5 +94,5 @@ export {
   fetchAllMediaItems,
   findMediaItemById,
   modifyMediaItem,
-  deleteMediaItemById,
+  removeMediaItem,
 };
