@@ -2,6 +2,7 @@ import express from 'express';
 import mediaRouter from './routes/media-router.js';
 import userRouter from './routes/user-router.js';
 import {logRequest} from './middlewares/logger.js';
+import authRouter from './routes/auth.router.js';
 
 const hostname = '127.0.0.1';
 const app = express();
@@ -30,6 +31,8 @@ app.get('/api', (req, res) => {
 app.use('/api/media', mediaRouter);
 // user resource endpoints
 app.use('/api/users', userRouter);
+// user authentication
+app.use('/api/auth', authRouter);
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

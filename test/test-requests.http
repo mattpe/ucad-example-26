@@ -87,3 +87,15 @@ DELETE {{apiUrl}}/media/9625
 ## /users requests
 
 // TODO: ADD!
+
+## Authentication routes
+
+### Post login
+POST {{apiUrl}}/auth/login
+content-type: application/json
+
+{
+  "username": "JaneSmith",
+  "password": "to-be-hashed-pw2"
+}
+
