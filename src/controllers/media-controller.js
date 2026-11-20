@@ -7,10 +7,7 @@ import {
 } from '../models/media-model.js';
 
 const getMediaItems = async (req, res) => {
-  const limit = Number(req.query.limit);
-  if (req.query.limit && isNaN(limit)) {
-    return res.status(400).json({error: 400, message: 'Parameteter not a number'});
-  }
+  const limit = req.query.limit ? Number(req.query.limit) : undefined;
   const items = await fetchAllMediaItems(limit);
   res.json(items);
 };

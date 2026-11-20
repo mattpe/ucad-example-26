@@ -17,4 +17,19 @@ const selectUserByUsername = async (username) => {
   }
 };
 
-export {selectUserByUsername};
+const addUser = async (user) => {
+  const {username, password, email, user_level_id} = user;
+  const sql = `INSERT INTO Users (username, password, email, user_level_id)
+               VALUES (?, ?, ?, ?)`;
+  const params = [username, password, email, user_level_id];
+  try {
+    const rows = await promisePool.execute(sql, params);
+    //console.log('add user rows', rows);
+    return rows[0].insertId;
+  } catch (e) {
+    console.error('error', e.message);
+    return {error: e.message};
+  }
+};
+
+export {selectUserByUsername, addUser};

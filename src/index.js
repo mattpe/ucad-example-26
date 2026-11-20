@@ -3,6 +3,7 @@ import mediaRouter from './routes/media-router.js';
 import userRouter from './routes/user-router.js';
 import {logRequest} from './middlewares/logger.js';
 import authRouter from './routes/auth.router.js';
+import {errorHandler, notFoundHandler} from './middlewares/error-handlers.js';
 
 const hostname = '127.0.0.1';
 const app = express();
@@ -33,6 +34,11 @@ app.use('/api/media', mediaRouter);
 app.use('/api/users', userRouter);
 // user authentication
 app.use('/api/auth', authRouter);
+
+// oletusreitti kaikille http-pyynnöille, joille ei ole määritelty reittiä.
+app.use(notFoundHandler);
+// oletusvirheenkäsittely 
+app.use(errorHandler);
 
 app.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);

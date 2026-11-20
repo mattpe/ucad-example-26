@@ -23,25 +23,13 @@ POST http://localhost:3000/
 GET {{apiUrl}}/media
 
 ### GET 3 latest media items
-GET {{apiUrl}}/media?limit=1
-
+GET {{apiUrl}}/media?limit=3
 ### GET media item by id
-GET {{apiUrl}}/media/2
+GET {{apiUrl}}/media/
 
 ### GET media item by id (Not found)
 GET {{apiUrl}}/media/0
 
-### Add new media item (JSON, no file included!)
-POST {{apiUrl}}/media
-content-type: application/json
-
-{
-  "filename": "60ac.jpg",
-  "title": "New image",
-  "description": "The description of the new image",
-  "user_id": 305,
-  "media_type": "image/jpeg"
-}
 
 ### Add new media item WITH IMAGE (form-data) with token
 POST {{apiUrl}}/media
@@ -51,11 +39,11 @@ Content-Type: multipart/form-data; boundary=----Boundary
 ------Boundary
 Content-Disposition: form-data; name="title"
 
-New cat image
+kissa
 ------Boundary
-Content-Disposition: form-data; name="user_id"
+Content-Disposition: form-data; name="description"
 
-1
+Kuva kissasta
 ------Boundary
 Content-Disposition: form-data; name="file"; filename="image.png"
 Content-Type: image/jpeg
@@ -64,16 +52,7 @@ Content-Type: image/jpeg
 ------Boundary--
 
 
-### Add new media item (Bad request, title missing)
-POST {{apiUrl}}/media
-content-type: application/json
 
-{
-  "filename": "60ac.jpg",
-  "description": "The description of the new image",
-  "user_id": 305,
-  "media_type": "image/jpeg"
-}
 
 ### Modify existing media item 
 PUT {{apiUrl}}/media/9632
@@ -107,3 +86,13 @@ content-type: application/json
 ### Get user info
 GET {{apiUrl}}/auth/me
 Authorization: Bearer {{login.response.body.token}}
+
+### Register new user
+POST {{apiUrl}}/users
+content-type: application/json
+
+{
+  "username": "vfadfdaösklj",
+  "password": "saladsakal",
+  "email": "aa@x.xi"
+}
